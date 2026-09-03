@@ -81,21 +81,21 @@ class WorldBank:
     """World Bank Open Data."""
 
     @staticmethod
-    def indicators(**kwargs):
-        return fetch_indicators(**kwargs)
+    def indicators(indicator: str = "NY.GDP.MKTP.CD", **kwargs):
+        return fetch_indicators(indicator=indicator, **kwargs)
 
 
 class IMF:
     """International Monetary Fund data."""
 
     @staticmethod
-    def weo(**kwargs):
-        return fetch_weo(**kwargs)
+    def weo(country: str = None, indicator: str = None, **kwargs):
+        return fetch_weo(country=country, indicator=indicator, **kwargs)
 
 
 class CoinGecko:
     """Cryptocurrency market data."""
 
     @staticmethod
-    def crypto(**kwargs):
-        return fetch_crypto(**kwargs)
+    def crypto(vs_currency: str = "usd", per_page: int = 100, page: int = 1):
+        return fetch_crypto(vs_currency=vs_currency, per_page=per_page, page=page)

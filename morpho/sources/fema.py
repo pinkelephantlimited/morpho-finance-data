@@ -34,7 +34,7 @@ def fetch_nfip_policies(limit: int = 1000) -> pd.DataFrame:
     response = requests.get(url, params=params, timeout=60)
     response.raise_for_status()
     data = response.json()
-    return pd.DataFrame(data.get("data", []))
+    return pd.DataFrame(data.get("FimaNfipPolicies", data.get("data", [])))
 
 
 def fetch_disasters(limit: int = 1000) -> pd.DataFrame:
@@ -59,7 +59,7 @@ def fetch_disasters(limit: int = 1000) -> pd.DataFrame:
     response = requests.get(url, params=params, timeout=60)
     response.raise_for_status()
     data = response.json()
-    return pd.DataFrame(data.get("data", []))
+    return pd.DataFrame(data.get("DisasterDeclarationsSummaries", data.get("data", [])))
 
 
 def fetch_nfip_claims(limit: int = 1000) -> pd.DataFrame:
@@ -80,4 +80,4 @@ def fetch_nfip_claims(limit: int = 1000) -> pd.DataFrame:
     response = requests.get(url, params=params, timeout=60)
     response.raise_for_status()
     data = response.json()
-    return pd.DataFrame(data.get("data", []))
+    return pd.DataFrame(data.get("FimaNfipClaims", data.get("data", [])))

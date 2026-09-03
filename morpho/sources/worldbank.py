@@ -48,11 +48,21 @@ def fetch_indicators(
     if len(data) < 2:
         return pd.DataFrame()
 
-    records = data[1]
+    records = []
+    for item in data[1]:
+        records.append({
+            "country_id": item.get("country", {}).get("id"),
+            "country_name": item.get("country", {}).get("value"),
+            "indicator_id": item.get("indicator", {}).get("id"),
+            "indicator_name": item.get("indicator", {}).get("value"),
+            "date": item.get("date"),
+            "value": item.get("value"),
+        })
+
     df = pd.DataFrame(records)
     df["date"] = pd.to_numeric(df["date"])
     df["value"] = pd.to_numeric(df["value"], errors="coerce")
-    return df.sort_values(["country.value", "date"]).reset_index(drop=True)
+    return df.sort_values(["country_name", "date"]).reset_index(drop=True)
 
 
 def list_indicators(search: Optional[str] = None) -> pd.DataFrame:
