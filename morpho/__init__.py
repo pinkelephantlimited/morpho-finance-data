@@ -11,6 +11,13 @@ from morpho.sources.eia import fetch_energy
 from morpho.sources.worldbank import fetch_indicators
 from morpho.sources.imf import fetch_weo
 from morpho.sources.coingecko import fetch_crypto
+from morpho.sources.fred import fetch_series as fetch_fred
+from morpho.sources.cftc import fetch_cot
+from morpho.sources.oecd import fetch_indicator as fetch_oecd
+from morpho.sources.bis import fetch_reserve_data, fetch_credit_to_gdp
+from morpho.sources.federal_reserve import fetch_h8, fetch_z1
+from morpho.sources.cboe import fetch_options_chain
+from morpho.sources.ecb import fetch_series as fetch_ecb
 
 
 class Treasury:
@@ -99,3 +106,67 @@ class CoinGecko:
     @staticmethod
     def crypto(vs_currency: str = "usd", per_page: int = 100, page: int = 1):
         return fetch_crypto(vs_currency=vs_currency, per_page=per_page, page=page)
+
+
+class FRED:
+    """Federal Reserve Economic Data."""
+
+    @staticmethod
+    def series(series_id: str = "DGS10", **kwargs):
+        return fetch_fred(series_id=series_id, **kwargs)
+
+
+class CFTC:
+    """CFTC Commitments of Traders."""
+
+    @staticmethod
+    def cot(report_type: str = "legacy", **kwargs):
+        return fetch_cot(report_type=report_type, **kwargs)
+
+
+class OECD:
+    """OECD Data."""
+
+    @staticmethod
+    def indicator(indicator: str = "B1GQ", **kwargs):
+        return fetch_oecd(indicator=indicator, **kwargs)
+
+
+class BIS:
+    """Bank for International Settlements."""
+
+    @staticmethod
+    def reserves(**kwargs):
+        return fetch_reserve_data(**kwargs)
+
+    @staticmethod
+    def credit_to_gdp(**kwargs):
+        return fetch_credit_to_gdp(**kwargs)
+
+
+class FederalReserve:
+    """Federal Reserve Bank Data."""
+
+    @staticmethod
+    def h8(**kwargs):
+        return fetch_h8(**kwargs)
+
+    @staticmethod
+    def z1(**kwargs):
+        return fetch_z1(**kwargs)
+
+
+class CBOE:
+    """CBOE Options Data."""
+
+    @staticmethod
+    def chain(symbol: str, **kwargs):
+        return fetch_options_chain(symbol=symbol, **kwargs)
+
+
+class ECB:
+    """ECB Statistical Data Warehouse."""
+
+    @staticmethod
+    def series(flow_ref: str = "FM", key: str = "D.U2.EUR.4F.KR.MRR_FR.LEV", **kwargs):
+        return fetch_ecb(flow_ref=flow_ref, key=key, **kwargs)
