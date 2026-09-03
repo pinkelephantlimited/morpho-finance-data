@@ -42,10 +42,19 @@ def fetch_series(
     from io import StringIO
     df = pd.read_csv(StringIO(response.text))
     df.columns = df.columns.str.strip()
-    df["DATE"] = pd.to_datetime(df["DATE"])
+
+    # Find the date column (could be "DATE", "observation_date", etc.)
+    date_col = [c for c in df.columns if "date" in c.lower()]
+    if date_col:
+        df[date_col[0]] = pd.to_datetime(df[date_col[0]])
+        df = df.sort_values(date_col[0]).reset_index(drop=True)
+
     df = df.replace(".", None)
-    df.iloc[:, 1] = pd.to_numeric(df.iloc[:, 1], errors="coerce")
-    return df.sort_values("DATE").reset_index(drop=True)
+    # Convert numeric columns
+    for col in df.columns:
+        if col != date_col[0] if date_col else True:
+            df[col] = pd.to_numeric(df[col], errors="coerce")
+    return df
 
 
 # Common series shortcuts
